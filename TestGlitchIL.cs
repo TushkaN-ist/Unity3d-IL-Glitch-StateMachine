@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class TestGlitchIL : MonoBehaviour, ITestGlitch
 {
-	public IEnumerable<IHandGrab> Grabs => throw new System.NotImplementedException();
-
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
