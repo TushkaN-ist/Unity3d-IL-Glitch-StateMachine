@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TestGlitchIL : MonoBehaviour, ITestGlitch
@@ -7,32 +6,29 @@ public class TestGlitchIL : MonoBehaviour, ITestGlitch
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			((ITestGlitch)this).Grabbed(true, null);
+			((ITestGlitch)this).GlitchTest(true, 1,2,3,4,5,6,7,8,9);
 		}
 	}
-	public void Grabbed(bool grab, params int[] inputs)
+	public void GlitchTest(bool grab, params int[] inputs)
 	{
-		Debug.Log("Grab");
+		string input = string.Join(" ", inputs);
+		Debug.Log("Grabbed:"+ input);
 	}
-	public void UnGrabbed(bool grab, params int[] inputs)
+	public void GlitchTest2(bool grab, params int[] inputs)
 	{
-		Debug.Log("Ungrab");
+		string input = string.Join(";", inputs);
+		Debug.Log("UnGrabbed:" + input);
 	}
 }
 public interface ITestGlitch
 {
-	public static Dictionary<GameObject, ITestGlitch> grabbed = new Dictionary<GameObject, ITestGlitch>();
-	public static bool TryGetValue(GameObject obj, out ITestGlitch handGrabbed)
+	public static bool GlitchMethod<T>(out T handGrabbed) where T : ITestGlitch
 	{
-		return grabbed.TryGetValue(obj, out handGrabbed);
-	}
-	public static bool TryGetValue<T>(GameObject obj, out T handGrabbed) where T : ITestGlitch
-	{
-		ITestGlitch result;
+		ITestGlitch result = null;
 		handGrabbed = default(T);
-		return TryGetValue(obj, out result) && (result is T && (handGrabbed = (T)result) != null);
+		return (result is T && (handGrabbed = (T)result) != null);
 	}
-	public void Grabbed(bool grab, params int[] inputs);
-	public void UnGrabbed(bool grab, params int[] inputs);
+	public void GlitchTest(bool grab, params int[] inputs);
+	public void GlitchTest2(bool grab, params int[] inputs);
 }
 
